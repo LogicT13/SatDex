@@ -1,5 +1,4 @@
-import urllib.request
-import urllib.parse
+import requests
 import json
 import os
 import sys
@@ -17,10 +16,10 @@ def send_telegram_message(message):
         return
     
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    data = urllib.parse.urlencode({'chat_id': TELEGRAM_CHAT_ID, 'text': message}).encode('utf-8')
-    req = urllib.request.Request(url, data=data)
+    data = {'chat_id': TELEGRAM_CHAT_ID, 'text': message}
     try:
-        urllib.request.urlopen(req)
+        response = requests.post(url, data=data)
+        response.raise_for_status()
         print("Mensaje de Telegram enviado!")
     except Exception as e:
         print(f"Error al enviar mensaje a Telegram: {e}")
@@ -46,10 +45,11 @@ def check_satnogs():
     # y ver si el estado cambio a "Alive" o si hay telemetria reciente.
     for sat in SATELLITES_TO_MONITOR:
         url = f"https://db.satnogs.org/api/satellites/?search={sat}"
-        req = urllib.request.Request(url, headers={'User-Agent': 'SatDex-Monitor/1.0'})
+        headers = {'User-Agent': 'SatDex-Monitor/1.0'}
         try:
-            response = urllib.request.urlopen(req, timeout=15)
-            data = json.loads(response.read().decode())
+            response = requests.get(url, headers=headers, timeout=15)
+            response.raise_for_status()
+            data = response.json()
             
             for s in data:
                 sat_name = s.get('name', 'Unknown')
