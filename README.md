@@ -7,21 +7,21 @@ SatDex Monitor es un script automatizado en Python diseñado para monitorear el 
 
 El sistema revisa constantemente la API de SatNOGS para detectar si hay nueva telemetría o si el estado de los satélites cambia a "Activo" (alive). Cuando se detecta un cambio importante, envía inmediatamente una alerta a través de un bot de **Telegram**.
 
-## 🚀 Características
+## - Características
 
 - **Monitoreo Automático**: Utiliza GitHub Actions para ejecutarse automáticamente cada 10 minutos.
 - **Alertas en Tiempo Real**: Notificaciones inmediatas a un chat de Telegram.
 - **Gestión de Estado**: Mantiene un historial (caché) local para no enviar alertas duplicadas.
 - **Fácilmente Extensible**: Puedes añadir más satélites a la lista de monitoreo fácilmente.
 
-## 🛠️ Tecnologías
+## - Tecnologías
 
 - [Python 3](https://www.python.org/)
 - [Requests](https://pypi.org/project/requests/) (para peticiones a la API)
 - [GitHub Actions](https://github.com/features/actions) (para ejecución periódica)
 - [SatNOGS API](https://db.satnogs.org/api/)
 
-## ⚙️ Configuración y Uso
+## - Configuración y Uso
 
 Este proyecto está diseñado para funcionar de manera desatendida en GitHub Actions. Para configurarlo en tu propio repositorio (haciendo un fork o clonando):
 
@@ -40,7 +40,7 @@ Si deseas monitorear otros satélites, edita la variable `SATELLITES_TO_MONITOR`
 SATELLITES_TO_MONITOR = ['UTNH', 'USAT-1']
 ```
 
-## 💻 Ejecución Local
+## - Ejecución Local
 
 Si prefieres ejecutar el script manualmente en tu computadora:
 
@@ -66,6 +66,6 @@ Si prefieres ejecutar el script manualmente en tu computadora:
    python monitor.py
    ```
 
-## 🔄 ¿Cómo funciona el caché?
+## - ¿Cómo funciona el caché?
 
 El script guarda el estado actual de los satélites en un archivo llamado `sat_cache.json`. GitHub Actions hace un *commit* de este archivo automáticamente después de cada ejecución. Esto permite que en la siguiente ejecución el script sepa cuál era el estado anterior y pueda determinar si es necesario enviar una nueva alerta.
